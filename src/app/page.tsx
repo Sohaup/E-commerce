@@ -1,10 +1,11 @@
 import Image from "next/image";
-import { DatePickerDemo } from './_components/DatePicker/DatePicker';
+import {NavMenu} from "./_components/NavBar/Navbar";
+
 
 export default function Home() {
   return (
-    <div>
-      <DatePickerDemo/>    
-    </div>
+    <main>
+      
+    </main>
   );
 }
