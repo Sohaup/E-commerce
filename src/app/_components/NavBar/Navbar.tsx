@@ -11,10 +11,10 @@ export function NavMenu() {
   console.log(path);
   
   return (
-    <nav className='bg-slate-200'>
-    <Navbar fluid rounded className='cont bg-slate-200'>      
+    <nav className='bg-orange-200 fixed top-0 w-full z-50'>
+    <Navbar fluid rounded className='cont bg-orange-200'>      
       <NavbarBrand as={Link} href="https://flowbite-react.com" className='flex gap-3'>
-        <ShoppingCart size={50} color={"darkgreen"} className='fill-terq/80 stroke-terq'/>
+        <ShoppingCart size={50} color={"darkgreen"} className='fill-red-400 stroke-red-800'/>
         <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Store</span>
       </NavbarBrand>
       <NavbarToggle />
@@ -28,10 +28,10 @@ export function NavMenu() {
         </Link>
         <Link href="/wishList" className={`${path == "/wishList" ? "active" : ""} md:self-center`}>Wish list</Link>
         <Link href="/products" className={`${path == "/products" || path.match(/\/products\/*/) ? "active" : ""} md:self-center`}>Products</Link> 
-        <Link href="/categories" className={`${path == "/categories" ? "active" : ""} md:self-center`}>Categories</Link>
+        <Link href="/categories" className={`${path == "/categories" || path.match(/\/categories\/*/) ? "active" : ""} md:self-center`}>Categories</Link>
         <Link href='/brands' className={`${path == "/brands" ? "active" : ""} md:self-center`}> Brands</Link>        
         <div className="group flex gap-3 items-center  justify-center py-4">
-          <ShoppingCart size={30} className='fill-terq stroke-terq'/>
+          <ShoppingCart size={30} className=' stroke-red-800 fill-red-800'/>
           <span className='cursor-pointer'>Logout</span>
         </div>
       </NavbarCollapse>   

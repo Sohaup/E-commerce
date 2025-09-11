@@ -2,9 +2,11 @@
 import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+import Image from 'next/image';
 
 
-export default function Slider({imagesPath}:{imagesPath:string[]}) {
+
+export default function Slider({imagesPath ,  className}:{imagesPath:(string[]) , className: string} ) {
   return (
     <div className='w-full'>
       <Swiper
@@ -12,7 +14,7 @@ export default function Slider({imagesPath}:{imagesPath:string[]}) {
     >
      {imagesPath.map((imgPath)=> (
         <SwiperSlide key={imgPath}>
-            <img src={imgPath } width={500}/>
+           <Image src={imgPath} alt='image' width={200} height={200} className={`${className}`}/>
         </SwiperSlide>
      ) )}
      

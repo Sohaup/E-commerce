@@ -1,11 +1,63 @@
 import Image from "next/image";
-import {NavMenu} from "./_components/NavBar/Navbar";
+import { NavMenu } from "./_components/NavBar/Navbar";
+import saleImg1 from "../../public/sale.webp"
+import saleImg2 from "../../public/saleTwo.jpg"
+import saleImg3 from "../../public/sale3.jpg"
+import saleImg4 from "../../public/slae4.jpg"
+import sliderImg1 from "../../public/images/slider-image-1.jpeg"
+import sliderImg2 from "../../public/images/slider-image-2.jpeg"
+import sliderImg3 from "../../public/images/slider-image-3.jpeg"
+import sliderImgMain from "@/../public/images/slider-2.jpeg"
+import Slider from "./_components/Slidder/Slider";
+import { CategoryType } from "@/types/categoryType";
+import CategoriesView from "./_components/categoriesView/CategoriesView";
+import { getProducts } from "./products/page";
+import Product from "./_components/Product/Product";
+import { productType } from "@/types/productType";
+
+export async function getCategories() {
+  const res = await fetch("https://ecommerce.routemisr.com/api/v1/categories", {
+    method: "GET",
+    cache: "no-store"
+  })
+  const categories = await res.json();
+  return categories.data;
+}
+
+export default async function Home() {
+  const images = [sliderImg1.src, sliderImg2.src, sliderImg3.src];
 
 
-export default function Home() {
+
+  const categories: CategoryType[] = await getCategories();
+  const products: productType[] = await getProducts();
+
+
   return (
-    <main>
+    <main className="cont" >
+      <section className="flex  justify-center pb-10 flex-col lg:flex-row">
+          <div className="slider overflow-hidden w-full lg:w-1/2 z-10">
+            <Slider imagesPath={images} className="w-full"/>
+          </div>          
+          <div className="flex flex-row lg:flex-col w-full lg:w-1/4 ">
+            <Image src={sliderImg2 } alt="image" className="w-1/2 lg:w-full"/>
+            <Image src={sliderImg3 } alt="image" className="w-1/2 lg:w-full"/>
+          </div>
+      </section>
       
+      <div className="lg:w-3/4  lg:mx-auto overflow-hidden ">
+        <CategoriesView categories={categories} className="" />
+      </div>
+
+      <div className="products my-10  ">
+        <div className="  space-y-8 ">
+
+          <div className="product-cont">
+            {products.map((product) => <Product key={product._id} product={product} />)}
+          </div>
+        </div>
+
+      </div>
     </main>
   );
 }
