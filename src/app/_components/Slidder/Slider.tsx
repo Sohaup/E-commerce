@@ -13,7 +13,7 @@ export default function Slider({imagesPath ,  className}:{imagesPath:(string[]) 
      loop={true}
     >
      {imagesPath.map((imgPath)=> (
-        <SwiperSlide key={imgPath}>
+        <SwiperSlide key={imgPath} >
            <Image src={imgPath} alt='image' width={200} height={200} className={`${className}`}/>
         </SwiperSlide>
      ) )}

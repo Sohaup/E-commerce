@@ -8,7 +8,7 @@ export default function Loader() {
     ]
   return (
     <div>
-      <Spinner variant={varients[0]} size={80} className='text-orange-500'/>
+      <Spinner variant={varients[0]} size={80} className='text-red-500'/>
     </div>
   )
 }
