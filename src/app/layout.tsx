@@ -29,7 +29,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NavMenu/>
-        {children}
+        <div className="py-40">   
+            {children}
+        </div>
+       
       </body>
     </html>
   );

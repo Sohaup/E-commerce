@@ -21,7 +21,7 @@ export default async function page(props) {
   return (
     <section className='flex gap-6 cont py-8 items-center flex-col lg:flex-row '>
         <div className="slider w-1/2">
-            <Slider imagesPath={productDetails.images}/> 
+            <Slider imagesPath={productDetails.images} className='w-1/2'/> 
         </div>
         <div className="details flex flex-col gap-5 mx-5 lg:mx-0">
             <div className="title font-bold text-3xl">
