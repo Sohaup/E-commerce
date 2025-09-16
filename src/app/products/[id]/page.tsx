@@ -5,8 +5,8 @@ import { Button } from 'flowbite-react';
 import { Star } from 'lucide-react';
 import React from 'react'
 
-export default async function page(props) {   
-   const {id} = await props.params;
+export default async function page({params}:{params:Promise<{id:string}>}) {   
+   const {id} = await params;
    async function getProductDetails()  {
         const res = await fetch(`https://ecommerce.routemisr.com/api/v1/products/${id}` ,
          {method:"GET" , cache:"force-cache"}); 
@@ -14,8 +14,7 @@ export default async function page(props) {
          return productDetail?.data
    }
 
-   const productDetails:productType = await getProductDetails();
-   console.log(productDetails);
+   const productDetails:productType = await getProductDetails();  
    
     
   return (

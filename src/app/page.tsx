@@ -14,6 +14,9 @@ import CategoriesView from "./_components/categoriesView/CategoriesView";
 import { getProducts } from "./products/page";
 import Product from "./_components/Product/Product";
 import { productType } from "@/types/productType";
+import {getServerSession} from "next-auth"
+import { authOptions } from "@/auth";
+import returnToken from "@/utilities/token";
 
 export async function getCategories() {
   const res = await fetch("https://ecommerce.routemisr.com/api/v1/categories", {
@@ -26,13 +29,11 @@ export async function getCategories() {
 
 export default async function Home() {
   const images = [sliderImg1.src, sliderImg2.src, sliderImg3.src];
-
-
-
   const categories: CategoryType[] = await getCategories();
   const products: productType[] = await getProducts();
-
-
+  const sessionData = await getServerSession(authOptions); 
+  
+  
   return (
     <main className="cont" >
       <section className="flex  justify-center pb-10 flex-col lg:flex-row  ">

@@ -18,7 +18,7 @@ export default function Product({ product }: { product: productType }) {
     return (
         <Card className='hover:relative group'>
             <div className="img w-full relative group">
-                <img src={product.imageCover}
+                <Image src={product.imageCover}
                  width={300} height={300}
                  alt='prouct image'
                  className='object-cover w-full block'/>

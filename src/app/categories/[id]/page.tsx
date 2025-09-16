@@ -3,7 +3,7 @@ import React from 'react'
 import Product from '../../_components/Product/Product';
 
 
-export default async function page({ params }) {
+export default async function page({ params }:{params:Promise<{id:string}>}) {
     const { id } = await params;
 
     async function getCategoryProducts(id: string) {

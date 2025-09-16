@@ -17,7 +17,8 @@ export async function sendResetCode(credentails:forgetType , navigate:AppRouterI
     const data = await res.json();   
     toast.success(data.message);
     navigate.push("/verify");
-    } catch(err:any) {
+    } catch(err) {
+       if (err instanceof Error)
        toast.error(err.message);    
     }
     
