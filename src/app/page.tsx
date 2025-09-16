@@ -14,6 +14,9 @@ import CategoriesView from "./_components/categoriesView/CategoriesView";
 import { getProducts } from "./products/page";
 import Product from "./_components/Product/Product";
 import { productType } from "@/types/productType";
+import {getServerSession} from "next-auth"
+import { authOptions } from "@/auth";
+import returnToken from "@/utilities/token";
 
 export async function getCategories() {
   const res = await fetch("https://ecommerce.routemisr.com/api/v1/categories", {
@@ -26,26 +29,24 @@ export async function getCategories() {
 
 export default async function Home() {
   const images = [sliderImg1.src, sliderImg2.src, sliderImg3.src];
-
-
-
   const categories: CategoryType[] = await getCategories();
   const products: productType[] = await getProducts();
-
-
+  const sessionData = await getServerSession(authOptions); 
+  
+  
   return (
     <main className="cont" >
-      <section className="flex  justify-center pb-10 flex-col lg:flex-row">
-          <div className="slider overflow-hidden w-full lg:w-1/2 z-10">
-            <Slider imagesPath={images} className="w-full"/>
+      <section className="flex  justify-center pb-10 flex-col lg:flex-row  ">
+          <div className="slider  w-full lg:w-1/2 z-10 overflow-hidden ">
+            <Slider imagesPath={images} className="w-full aspect-square "/>
           </div>          
-          <div className="flex flex-row lg:flex-col w-full lg:w-1/4 ">
-            <Image src={sliderImg2 } alt="image" className="w-1/2 lg:w-full"/>
-            <Image src={sliderImg3 } alt="image" className="w-1/2 lg:w-full"/>
+          <div className="flex flex-row lg:flex-col w-full lg:w-1/4  ">
+            <Image src={sliderImg2 } alt="image" className="w-1/2 lg:w-full h-1/2"/>
+            <Image src={sliderImg3 } alt="image" className="w-1/2 lg:w-full h-1/2"/>
           </div>
       </section>
       
-      <div className="lg:w-3/4  lg:mx-auto overflow-hidden ">
+      <div className=" overflow-hidden ">
         <CategoriesView categories={categories} className="" />
       </div>
 

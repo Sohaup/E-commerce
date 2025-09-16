@@ -16,5 +16,11 @@
       "createTheme(?:<\\w+>)?\\s*\\(([^)]*)\\)",
       "{?\\s?[\\w].*:\\s*?[\"'`]([^\"'`]*).*?,?\\s?}?"
     ]
-  ]
+  ],
+   "editor.quickSuggestionsDelay": 0,
+  "typescript.tsserver.maxTsServerMemory": 4096,
+  "files.watcherExclude": {
+    "**/.next/**": true,
+    "**/build/**": true
+  }
 }

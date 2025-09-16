@@ -10,9 +10,9 @@ import Product from '../_components/Product/Product';
      return products?.data ;    
   }
 
-export default async function page() {  
-
+export default async function page() { 
   const products:productType[] = await getProducts();
+  
   return (
     <section className='cont product-cont '>
      {products.map((product)=> <Product key={product._id} product={product}/>)}

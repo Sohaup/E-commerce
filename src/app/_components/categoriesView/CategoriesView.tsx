@@ -3,6 +3,7 @@ import React from 'react'
 import Slider from '../Slidder/Slider'
 import { CategoryType } from '@/types/categoryType'
 import Link from 'next/link'
+import Image from 'next/image'
 
 
 
@@ -30,7 +31,7 @@ function CategoryCard({title , img}:{title:string , img:string}) {
       return (
         <div className="card">
             <div className="img  ">
-                <img src={img} className='w-full block objext-cover aspect-square' />
+                <Image src={img} alt={title}  width={200} height={200 } className='w-full block objext-cover aspect-square' />
             </div>
             <div className="title">
                 <h3>{title}</h3>

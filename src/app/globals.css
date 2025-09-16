@@ -131,7 +131,7 @@
     @apply w-full lg:w-3/4 mx-auto;
   }
   .active {
-    @apply text-red-600 font-bold;
+    @apply text-green-600 font-bold;
   }
   .product-btn {
     @apply bg-terq/80 text-lg font-bold hover:bg-terq absolute bottom-0 left-50 -translate-x-50;
