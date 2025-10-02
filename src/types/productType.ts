@@ -18,7 +18,7 @@ export interface productType {
     _id:string
 }
 
-type SubType = {
+export type SubType = {
     image:string ,
     name:string ,
     slug:string ,
