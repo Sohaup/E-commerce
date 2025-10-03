@@ -9,33 +9,54 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 export default function ProductSection({ products, categories }: { products: productType[], categories: CategoryType[] }) {
     const containerRef = useRef<HTMLDivElement>(null)
-    gsap.registerPlugin(ScrollTrigger );
+    gsap.registerPlugin(ScrollTrigger);
     useGSAP(() => {
         const mm = gsap.matchMedia();
-        mm.add("(min-width:1500px)" , (context)=> {
-            const translateXFullTwean = gsap.to(containerRef?.current, {
-            xPercent:-67 
-           
-        }) 
+        mm.add({ isDesktop: "(min-width:1500px)", isMobile: "(max-width:1499px)" }, (context) => {
+            const sections = containerRef.current?.querySelectorAll(".section:not(.hidden)");
+            if (context?.conditions?.isDesktop) {
+                const translateXFullTwean = gsap.to(containerRef?.current, {
+                    xPercent: 20 * (sections ? sections.length * -1 : 0)
 
-        ScrollTrigger.create({
-            animation:translateXFullTwean ,
-            trigger:containerRef.current ,
-            pin:true ,           
-            scrub:2
-        });     
+                })
+                ScrollTrigger.create({
+                    animation: translateXFullTwean,
+                    trigger: containerRef.current,
+                    pin: true,
+                    scrub: 2,
+                    anticipatePin: 1
+                });
 
-      
-      
-        return ()=> {
-            translateXFullTwean.kill();            
-        }
+                if (sections) {
+                    sections.forEach((section, index) => {
+                        if (index) {
+                            gsap.from(section, {
+                                opacity: 0,
+                                y: 200,
+                                stagger: .1,
+                                scrollTrigger: {
+                                    trigger: section,
+                                    containerAnimation: translateXFullTwean,
+                                    scrub: true
+                                }
+                            })
+                        }
+                    })
+                }
+                return () => {
+                    translateXFullTwean.kill();
+                }
+
+            } 
+
+
+
         })
 
-        return ()=> {
+        return () => {
             mm.revert();
         }
-       
+
 
     }, {
         scope: containerRef
@@ -54,13 +75,14 @@ export default function ProductSection({ products, categories }: { products: pro
 }
 
 
-function CategoryProducts({ category, products }: { category: CategoryType, products: productType[] }) {
+function CategoryProducts({ category, products }: { category: CategoryType, products: productType[] }) {    
     const filteredProducts: productType[] = products.filter((product) => product.category._id == category._id);
+   
     return (
         <div className={` ${filteredProducts.length ? "w-fit " : "hidden"} section flex flex-col 2xl:flex-row gap-3 items-center `}>
             <div className="title">
                 <h3 className='font-bold text-xl text-green-400 font-sans'>{filteredProducts.length ? category.name : ""}</h3>
-                
+
             </div>
             <div className={`products flex flex-wrap gap-3 justify-center ${filteredProducts.length ? "2xl:w-[600%] 2xl:mt-25  " : "hidden"}`}>
                 {filteredProducts.length ?
