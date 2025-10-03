@@ -39,10 +39,10 @@ export function LandingSection() {
     const landingImgRef = useRef<HTMLDivElement>(null)
     const lemoanImgRef = useRef<HTMLDivElement>(null)
     const freshProductsRef = useRef<HTMLDivElement>(null)
-    gsap.registerPlugin(ScrollTrigger );
+    gsap.registerPlugin(ScrollTrigger);
     useGSAP(() => {
         const tl = gsap.timeline();
-        const mm = gsap.matchMedia();        
+        const mm = gsap.matchMedia();
 
         tl.from(animationHeaderRef?.current, {
             scale: 2,
@@ -74,7 +74,7 @@ export function LandingSection() {
             duration: 2
         }, .1);
 
-        const freshProductsTl = tl.from(freshProductsRef?.current, {
+        tl.from(freshProductsRef?.current, {
             xPercent: -100,
             duration: 2,
             ease: "bounce.out",
@@ -86,31 +86,50 @@ export function LandingSection() {
             y: 10,
             repeat: -1,
             yoyo: true,
-            ease: "elastic.in",
+            ease: "elastic",
             duration: 1,
-            delay:1
+            delay: 1
         });
 
+
         mm.add({
-            isMobile: "(max-width:1000px)",
-            isDesktop: "(min-width:1001px)"
+            isMobile: "(max-width: 600px)",
+            isDesktop: "(min-width: 601px) and (max-width: 1027px)" ,
+            isTv:"(min-width:1028)"
         }, (context) => {
             if (context.conditions?.isDesktop) {
-
-                return () => {
-                    freshProductsTl.kill();
-                }
-
-            } else if (context.conditions?.isMobile) {
+               
 
                 const lemonTl = gsap.to(landingImgRef?.current, {
                     xPercent: -100,
-
                     scrollTrigger: {
                         trigger: landingImgRef?.current,
                         start: "top top",
                         end: "+=500",
-                        scrub: true,
+                        scrub: 1,
+                        pin: true,
+                        pinSpacing: true,
+
+                    }
+                });
+                return ()=>{
+                   
+                    lemonTl.kill();
+                }
+
+            } else if (context.conditions?.isMobile) {
+
+                const landingImgPrepareTween = gsap.set(landingImgRef.current, {
+                    scale: 1
+                })
+
+                const lemonTl = gsap.to(landingImgRef?.current, {
+                    xPercent: -100,
+                    scrollTrigger: {
+                        trigger: landingImgRef?.current,
+                        start: "top top",
+                        end: "+=500",
+                        scrub: 1,
                         pin: true,
                         pinSpacing: true,
 
@@ -118,7 +137,7 @@ export function LandingSection() {
                 });
 
                 const freshTl = gsap.to(freshProductsRef?.current, {
-                    overwrite:true ,
+                    overwrite: true,
                     xPercent: 0,
                     duration: 2,
                     ease: "bounce.out",
@@ -131,11 +150,12 @@ export function LandingSection() {
                 )
 
                 return () => {
+                    landingImgPrepareTween.kill();
                     lemonTl.kill();
                     freshTl.kill();
                 }
 
-            }
+            } 
         })
 
 
@@ -168,12 +188,12 @@ export function LandingSection() {
                     </div>
                     <div className="landing-details-img flex  justify-start w-1/2  " ref={lemoanImgRef}>
                         <Image src={lemonImg} alt="green and fresh lemons" className="w-full lg:w-3/4 block drop-shadow-xl" />
-                      
+
                     </div>
                 </div>
 
-                <div className="landing-img flex flex-col   translate-x-full lg:translate-x-0   z-20 my-auto " ref={landingImgRef}>
-                    <Image src={landingImg} alt="green juice img" className="w-1/2 z-0 lg:w-3/4 block object-cover mx-auto  img-shake drop-shadow-2xl" />
+                <div className="landing-img flex flex-col  z-20 my-auto " ref={landingImgRef}>
+                    <Image src={landingImg} alt="green juice img" className="w-1/2 z-0  sm:w-1/3  lg:w-3/4 block object-cover mx-auto  img-shake drop-shadow-2xl" />
                 </div>
 
 

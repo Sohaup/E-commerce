@@ -40,7 +40,7 @@ export default function Product({ product }: { product: productType }) {
    
    
     return (
-        <Card className='hover:relative group '>
+        <Card className='hover:relative group product'>
             <div className="img w-full relative group ">
                 <Image src={product.imageCover}
                  width={300} height={300}
