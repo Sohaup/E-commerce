@@ -164,6 +164,13 @@
   .auth-btn {
     @apply bg-transparent hover:bg-green-400 text-white font-semibold transition-colors;
   }
+
+  .bg-image {
+    background-image: url("../../public/images/products/superMarket.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
   
 }
 

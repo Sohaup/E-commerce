@@ -6,3 +6,9 @@ export interface CategoryType {
     updatedAt:string ,
     _id:string
 } 
+
+export type CategoryStateType = {
+    error:boolean ,
+    loading:boolean ,
+    categories:CategoryType[] 
+}
