@@ -84,9 +84,9 @@ function CategoryProducts({ category, products }: { category: CategoryType, prod
                 <h3 className='font-bold text-xl text-green-400 font-sans'>{filteredProducts.length ? category.name : ""}</h3>
 
             </div>
-            <div className={`products flex flex-wrap gap-3 justify-center ${filteredProducts.length ? "2xl:w-[600%] 2xl:mt-25  " : "hidden"}`}>
+            <div className={`products flex flex-wrap  gap-3 justify-center ${filteredProducts.length ? "2xl:w-[600%] 2xl:mt-25  " : "hidden"}`}>
                 {filteredProducts.length ?
-                    filteredProducts.map((product) => <Product key={product._id} product={product} />)
+                    filteredProducts.map((product) => <Product key={product._id} product={product} className='w-[85%]'/>)
                     : ""
                 }
             </div>

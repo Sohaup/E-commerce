@@ -9,6 +9,8 @@ import Image from "next/image"
 import { signOut, useSession } from 'next-auth/react';
 import { toast } from "sonner"
 import { Input } from "@/components/ui/input"
+import CategoriesMenu from '../categoriesMenu/CategoriesMenu';
+
 
 export function NavMenu() {
   const path = usePathname();
@@ -25,7 +27,7 @@ export function NavMenu() {
 
   } , [])
   return (
-    <nav className={`fixed top-0 w-full font-sans  z-40 bg-white py-5  transition-colors `} ref={navRef} >
+    <nav className={`fixed top-0 w-full font-sans  z-40 bg-white py-5  transition-colors  `} ref={navRef} >
       <div className="cont flex justify-between " >
         <div className="brand font-sans flex gap-1 items-center self-center">
           <Image src={storeLogo} alt="store logo" className='w-10 h-10' />
@@ -38,6 +40,7 @@ export function NavMenu() {
         <SearchForm inMobile={false} />
         <MobileNavigationMenu />
       </div>
+   
     </nav>
   );
 }
@@ -107,3 +110,4 @@ function MobileNavigationMenu() {
     </div>
   )
 }
+

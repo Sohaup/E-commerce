@@ -1,5 +1,5 @@
 import { getProducts } from "@/services/productApi";
-import { getCategories } from "@/services/productApi";
+import { getCategories } from "@/services/categoryApi";
 import type { productType } from "@/types/productType";
 import type { CategoryType } from "@/types/categoryType";
 import { getServerSession } from "next-auth"

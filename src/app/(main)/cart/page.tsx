@@ -6,7 +6,7 @@ import { getCartProducts } from '@/store/Slices/cartSlice';
 import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
 import returnToken from '@/utilities/token';
-import CartProduct from '../_components/CartProduct/CartProduct';
+import CartProduct from '@/app/_components/features/products/CartProduct/CartProduct';
 
 declare module "next-auth" {
   interface Session {

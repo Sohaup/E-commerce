@@ -25,3 +25,11 @@ export type SubType = {
     _id:string
 } 
 
+export type ProductStateType =  {
+    loading:boolean ,
+    error:boolean ,
+    products:productType[] | [] ,
+    filteredProducts:productType[]
+}
+
+

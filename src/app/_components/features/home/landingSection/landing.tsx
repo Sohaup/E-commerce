@@ -159,7 +159,6 @@ export function LandingSection() {
         })
 
 
-
         return () => {
             tl.kill();
             mm.revert();
