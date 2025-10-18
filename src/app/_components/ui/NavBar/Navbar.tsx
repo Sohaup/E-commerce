@@ -31,7 +31,7 @@ export function NavMenu() {
       <div className="cont flex justify-between " >
         <div className="brand font-sans flex gap-1 items-center self-center">
           <Image src={storeLogo} alt="store logo" className='w-10 h-10' />
-          <span className='text-2xl font-bold flex flex-col'>
+          <span className='text-xl font-bold flex flex-col'>
             <span>Flow</span>
             <span>Cart</span>
           </span>

@@ -4,6 +4,7 @@ import { productType } from '@/types/productType';
 import { Button } from 'flowbite-react';
 import { Star } from 'lucide-react';
 import React from 'react'
+import { getRelatedProductsUsingCategory } from '@/services/productApi';
 
 export default async function page({params}:{params:Promise<{id:string}>}) {   
    const {id} = await params;
@@ -15,12 +16,13 @@ export default async function page({params}:{params:Promise<{id:string}>}) {
    }
 
    const productDetails:productType = await getProductDetails();  
-   
+   const relatedProducts:productType[] = await getRelatedProductsUsingCategory(productDetails.category._id);   
     
   return (
-    <section className='flex gap-6 cont py-8 items-center flex-col lg:flex-row '>
+    <main >
+        <section className='flex gap-10 lg:gap-6 cont py-15 items-center flex-col lg:flex-row ' >     
         <div className="slider w-1/2">
-            <Slider imagesPath={productDetails.images} className='w-1/2'/> 
+            <Slider imagesPath={productDetails.images} className='w-full lg:w-1/2'/> 
         </div>
         <div className="details flex flex-col gap-5 mx-5 lg:mx-0">
             <div className="title font-bold text-3xl">
@@ -40,9 +42,16 @@ export default async function page({params}:{params:Promise<{id:string}>}) {
                     Add to cart
                 </Button>
             </div>
-
         </div>
-    </section>
+        </section>   
+        <section className='related-products w-full '>
+            <h2 className='fw-bold text-center font-sans text-3xl'>Related Products</h2>
+            <div className="cont grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 py-15">
+                {relatedProducts.map((product)=> <Product key={product.id} product={product} className='object-contain'/>)}
+            </div>
+        </section>
+        
+    </main>
   )
 }
 
