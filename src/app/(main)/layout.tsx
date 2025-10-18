@@ -29,7 +29,7 @@ export default function MainLayout({ children }: { children: React.ReactElement 
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased  `}>
+        className={`${geistSans.variable} ${geistMono.variable} antialiased `}>
         <ContentProvider>
           <NavMenu/>
           {children}

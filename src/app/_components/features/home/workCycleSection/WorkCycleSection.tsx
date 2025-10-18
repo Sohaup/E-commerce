@@ -56,7 +56,7 @@ export default function WorkCycleSection() {
             </Button>
           </div>
           <div className="slider w-full lg:w-1/2">
-            <Slider imagesPath={imgArr} className="w-full h-[500px]"/>
+            <Slider imagesPath={imgArr} className="w-full h-[500px]" isHidden={true}/>
           </div>
         </div>
       </div>

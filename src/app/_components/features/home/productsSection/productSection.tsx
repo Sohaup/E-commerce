@@ -27,22 +27,7 @@ export default function ProductSection({ products, categories }: { products: pro
                     anticipatePin: 1
                 });
 
-                if (sections) {
-                    sections.forEach((section, index) => {
-                        if (index) {
-                            gsap.from(section, {
-                                opacity: 0,
-                                y: 200,
-                                stagger: .1,
-                                scrollTrigger: {
-                                    trigger: section,
-                                    containerAnimation: translateXFullTwean,
-                                    scrub: true
-                                }
-                            })
-                        }
-                    })
-                }
+                
                 return () => {
                     translateXFullTwean.kill();
                 }
