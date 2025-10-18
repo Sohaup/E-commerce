@@ -53,17 +53,9 @@ export default function Product({ product, className }: { product: productType, 
             duration: 1
         })
     })
-    // useGSAP(() => {
-    //    gsap.to(buttonRef.current , {
-    //         opacity:1 ,
-    //         y:-20 ,           
-    //         duration:2
-    //     }) 
-    // } , {})
-
-
+   
     return (      
-            <Card className={`hover:relative group product  md:w-auto overflow-hidden ${className}`} onMouseOver={handleMouthUp} >
+            <Card className={`hover:relative group product  md:w-auto overflow-hidden ${className}`} onMouseOver={handleMouthUp} onTouchStart={handleMouthUp} >
                 <div className="img w-full relative group ">
                     <Image src={product.imageCover}
                         width={300} height={300}

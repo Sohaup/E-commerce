@@ -1,6 +1,6 @@
 import { productType } from '@/types/productType';
 import React from 'react'
-import Product from '../../_components/Product/Product';
+import Product from '@/app/_components/features/products/Product/Product';
 
 
 export default async function page({ params }:{params:Promise<{id:string}>}) {
@@ -16,11 +16,11 @@ export default async function page({ params }:{params:Promise<{id:string}>}) {
 
 
     return (
-        <section className='cont'>
+        <section className='py-15 overflow-hidden'>
             {
                 products.length ?
-                <div className='cont product-cont '>
-                   { products.map((product) => <Product key={product._id} product={product} />)}
+                <div className='cont product-cont grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+                   { products.map((product) => <Product key={product._id} product={product} className=''/>)}
                  </div>
                     : <h1 className="font-bold text-4xl text-center">
                         There is no products in this category Yet

@@ -7,14 +7,14 @@ import type { Swiper as SwiperType } from 'swiper/types';
 
 
 
-export default function Slider({imagesPath ,  className}:{imagesPath:(string[]) , className: string} ) {
+export default function Slider({imagesPath ,  className , isHidden=false} :{imagesPath:(string[]) , className: string , isHidden:boolean} ) {
 
   const swiperRef = useRef<SwiperType>(null);
   function slideToIndex(index:number) {
     swiperRef.current?.slideTo(index , 500);
   }
   return (
-    <div className='w-full space-y-3'>
+    <div className='w-full space-y-3   lg:relative'>
       <Swiper
      onSwiper={(swiper)=> swiperRef.current = swiper} 
      loop={true}
@@ -26,9 +26,9 @@ export default function Slider({imagesPath ,  className}:{imagesPath:(string[]) 
      ) )}
      
     </Swiper>
-    <div className="cont flex gap-1  me-17 ">
+    <div className="cont flex gap-1  w-full lg:w-1/2  lg:absolute left-5 " hidden={isHidden}>
      {imagesPath.map((imgPath , index)=> <Image key={imgPath}
-      src={imgPath} width={200} height={200} alt='image' className={`w-1/${imagesPath.length} lg:w-1/8 `}
+      src={imgPath} width={200} height={200} alt='image' className={`w-1/4  `}
       onClick={()=> slideToIndex(index)}
       />)}
     </div>

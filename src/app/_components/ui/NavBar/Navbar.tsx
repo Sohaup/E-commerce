@@ -64,7 +64,7 @@ function NavLinks({ inMobile }: { inMobile: boolean }) {
       <ul className={`flex  gap-3 ${inMobile ? " flex-col my-5" : "flex-row "}`}>
         <li><Link href={"/"} className={`${path == "/" ? "text-green-500 font-bold" : ""}`}>Home</Link></li>
         <li><Link href={"/products"} className={`${path == "/products" || path.match(/\/products\/*/) ? "text-green-500 font-bold" : ""}`}>Products</Link></li>
-        <li><Link href={"/products"} className={`${path == "/brands" ? "text-green-500 font-bold" : ""}`}>Brands</Link></li>
+        <li><Link href={"/categories"} className={`${path == "/categories" ? "text-green-500 font-bold" : ""}`}>Categories</Link></li>
         {
           sessionData.status == "authenticated" ?
             <>
