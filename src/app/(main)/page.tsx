@@ -11,6 +11,8 @@ import CategoriesSection from "../_components/features/home/categoriesSection/Ca
 import WorkCycleSection from "../_components/features/home/workCycleSection/WorkCycleSection";
 import BlogSection from "../_components/features/home/blogSection/BlogSection";
 import OrderForm from "../_components/ui/OrderForm/OrderForm";
+import VisualsSection from "../_components/features/home/visualsSection/VisualsSection";
+import StoreSection from "../_components/features/home/storeSection/storeSection";
 
 
 export default async function Home() {
@@ -19,7 +21,9 @@ export default async function Home() {
   const sessionData = await getServerSession(authOptions);
   return (
     <main>
-      <LandingSection />
+      <LandingSection categories={categories} />
+      <VisualsSection/>
+      <StoreSection/>
       <CategoriesSection categories={categories} />
       <ProductSection categories={categories} products={products} />
       <WorkCycleSection/>

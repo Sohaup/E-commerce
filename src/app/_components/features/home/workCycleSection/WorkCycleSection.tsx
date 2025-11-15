@@ -1,11 +1,10 @@
-import { Button } from "@/components/ui/button";
 import { Car, Coffee, RefreshCcw } from "lucide-react";
-import Link from "next/link";
-import candyImg1 from "@/../public/images/home/slider-image-1.jpeg"
-import candyImg2 from "@/../public/images/home/slider-image-2.jpeg"
-import candyImg3 from "@/../public/images/home/slider-image-3.jpeg"
-import Slider from "@/app/_components/ui/Slidder/Slider";
+import colthesSectionImg from "@/../public/images/home/clotheSection.jpg"
+import foodsSectionImg from "@/../public/images/home/foodSection.jpg"
+import fruitSectionImg from "@/../public/images/home/fruitsSection.jpg"
 import { Playfair_Display } from "next/font/google"; 
+import SliderSections, { imgInfoType } from "@/app/_components/ui/SliderSections/SliderSections";
+
 
 
 
@@ -16,12 +15,18 @@ const playFairDisplayFont = Playfair_Display({
 
 
 export default function WorkCycleSection() {
-  const imgArr = [candyImg1.src , candyImg2.src , candyImg3.src]
+  const imgArr:imgInfoType[] = [
+    
+    {path:fruitSectionImg.src , title:"Our fruits section " , description:"Enjoy natural organic fruits" , color:"green-500"} ,
+    {path:foodsSectionImg.src , title:"Our food section " , description:"Enjoy eating a tasty food" , color:"orange-500"} ,
+    {path:colthesSectionImg.src , title:"Our clothes section " , description:"Enjoy Shopping a unique clothes" , color:"purple-500"} 
+    
+  ]
   return (
-    <section className="cont py-10">
+    <section className="cont py-10 space-y-10">
 
-      <div className="details flex flex-col items-center ">
-        <div className="title text-center pb-5">
+      <div className="details flex flex-col  gap-8">
+        <div className="title  pb-5">
           <h2 className={`font-bold font-sans text-4xl  ` }>How It Works ?</h2>
         </div>
         <div className="flex flex-col md:flex-row items-center w-full justify-between py-10 gap-5 md:gap-0">
@@ -47,18 +52,7 @@ export default function WorkCycleSection() {
           <p className="text-center">Enjoy Your Product and give us a feedback</p>
         </span>
         </div>
-        <div className="view bg-green-300 rounded-lg w-full  flex justify-between flex-col lg:flex-row">
-          <div className="texts p-3 py-10 flex flex-col gap-5 self-center ">
-            <h4 className={`text-4xl font-bold font-serif text-white  ${playFairDisplayFont.className}`}>Create Your Perfect Order</h4>
-            <p className="font-semibold text-md">save up to 15% when order online thanks to our offers</p>
-            <Button className=" self-center lg:self-start bg-orange-400 hover:bg-orange-500 transition-all text-white rounded-xl py-5 ">
-              <Link href={"/products"}>Shop now</Link>
-            </Button>
-          </div>
-          <div className="slider w-full lg:w-1/2">
-            <Slider imagesPath={imgArr} className="w-full h-[500px]" isHidden={true}/>
-          </div>
-        </div>
+         <SliderSections  imagesPath={imgArr} />       
       </div>
     </section>
   )

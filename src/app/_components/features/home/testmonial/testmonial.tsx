@@ -5,9 +5,15 @@ import { useGSAP } from '@gsap/react';
 import { ArrowLeft, ArrowRight, Quote } from 'lucide-react';
 import { Observer } from 'gsap/Observer';
 import Image from 'next/image';
-import testmaonialImg1 from "@/../public/images/home/woemn1Avatar.jpg"
-import testmaonialImg2 from "@/../public/images/home/woemn2Avatar.jpg"
-import testmaonialImg3 from "@/../public/images/home/manAvatar.jpg"
+import storeImg1 from "@/../public/images/home/store1.jpg"
+import storeImg2 from "@/../public/images/home/store2.jpg"
+import storeImg3 from "@/../public/images/home/store3.jpg"
+import storeImg4 from "@/../public/images/home/store4.jpg"
+import storeImg5 from "@/../public/images/home/store5.jpg"
+import storeImg6 from "@/../public/images/home/store6.jpg"
+import storeImg7 from "@/../public/images/home/store7.jpg"
+import storeImg8 from "@/../public/images/home/store8.jpg"
+import SwipperGallery from '@/app/_components/ui/SwipperGallery/SwipperGallery';
 
 
 // Define the config type
@@ -21,7 +27,7 @@ interface HorizontalLoopConfig {
 }
 
 
-// Main function
+// gsap loop helper function
 function horizontalLoop(
     items: HTMLElement[] | NodeListOf<HTMLElement> | NodeListOf<Element> | string,
     config: HorizontalLoopConfig = {}
@@ -170,170 +176,57 @@ function horizontalLoop(
 
 export default function Testmonial() {
     const containerRef = useRef<HTMLDivElement>(null);
-    const testmonialCardRef = useRef<HTMLDivElement>(null)
     const spanNextRef = useRef<HTMLSpanElement>(null)
     const spanPrevRef = useRef<HTMLSpanElement>(null)
     gsap.registerPlugin(Observer);
-    useGSAP(() => {
 
-        const mm = gsap.matchMedia();
-        mm.add("(min-width:1280px)", () => {
-            const loop = horizontalLoop(containerRef.current?.querySelectorAll(".card")!, { paused: true })
-            Observer.create({
-                target: spanPrevRef.current,
-                onClick: () => {
-                    loop.previous({ duration: 1 })
-                }
-            })
-            Observer.create({
-                target: spanNextRef.current,
-                onClick: () => {
-                    loop.next({ duration: 1 })
-                }
-            })
-        })
+    // useGSAP(() => {
+    //     const mm = gsap.matchMedia();
+    //     mm.add("(min-width:1280px)", () => {
+    //         const loop = horizontalLoop(containerRef.current?.querySelectorAll(".card")!, { paused: true })
+    //         Observer.create({
+    //             target: spanPrevRef.current,
+    //             onClick: () => {
+    //                 loop.previous({ duration: 1 });
+    //             }
+    //         })
+    //         Observer.create({
+    //             target: spanNextRef.current,
+    //             onClick: () => {
+    //                 loop.next({ duration: 1 });
+    //             }
+    //         })
 
-        return ()=>{
-            mm.revert();
-        }
 
-    }, { scope: containerRef })
 
-    const cardInfoesArr: CardInfoType[] = [
-        {
-            id: 1,
-            title: "Anderea Weliem ",
-            texts: "the proggress tracker is fantastic it`s moving to see how much i have improved over time",
-            imgSrc: testmaonialImg1.src,
-            date: "21 july, 2025"
-        },
-        {
-            id: 2,
-            title: "sofee smith",
-            texts: "the proggress tracker is fantastic it`s moving to see how much i have improved over time",
-            imgSrc: testmaonialImg2.src,
-            date: "15 july, 2021"
-        },
-        {
-            id: 3,
-            title: "mark ciel ",
-            texts: "the proggress tracker is fantastic it`s moving to see how much i have improved over time",
-            imgSrc: testmaonialImg3.src,
-            date: "17 octoper, 2024"
-        },
-        {
-            id: 4,
-            title: "Anderea Weliem ",
-            texts: "the proggress tracker is fantastic it`s moving to see how much i have improved over time",
-            imgSrc: testmaonialImg1.src,
-            date: "21 july, 2025"
-        },
-        {
-            id: 5,
-            title: "sofee smith",
-            texts: "the proggress tracker is fantastic it`s moving to see how much i have improved over time",
-            imgSrc: testmaonialImg2.src,
-            date: "15 july, 2021"
-        },
-        {
-            id: 6,
-            title: "mark ciel ",
-            texts: "the proggress tracker is fantastic it`s moving to see how much i have improved over time",
-            imgSrc: testmaonialImg3.src,
-            date: "17 octoper, 2024"
-        },
-        {
-            id: 7,
-            title: "Anderea Weliem ",
-            texts: "the proggress tracker is fantastic it`s moving to see how much i have improved over time",
-            imgSrc: testmaonialImg1.src,
-            date: "21 july, 2025"
-        },
-        {
-            id: 8,
-            title: "sofee smith",
-            texts: "the proggress tracker is fantastic it`s moving to see how much i have improved over time",
-            imgSrc: testmaonialImg2.src,
-            date: "15 july, 2021"
-        },
-        {
-            id: 9,
-            title: "mark ciel ",
-            texts: "the proggress tracker is fantastic it`s moving to see how much i have improved over time",
-            imgSrc: testmaonialImg3.src,
-            date: "17 octoper, 2024"
-        },
-        {
-            id: 10,
-            title: "Anderea Weliem ",
-            texts: "the proggress tracker is fantastic it`s moving to see how much i have improved over time",
-            imgSrc: testmaonialImg1.src,
-            date: "21 july, 2025"
-        },
-        {
-            id: 11,
-            title: "sofee smith",
-            texts: "the proggress tracker is fantastic it`s moving to see how much i have improved over time",
-            imgSrc: testmaonialImg2.src,
-            date: "15 july, 2021"
-        },
-        {
-            id: 12,
-            title: "mark ciel ",
-            texts: "the proggress tracker is fantastic it`s moving to see how much i have improved over time",
-            imgSrc: testmaonialImg3.src,
-            date: "17 octoper, 2024"
-        }
+    //     });
+
+    //     return () => {
+    //         mm.revert();
+    //     }
+
+    // }, { scope: containerRef })
+
+
+
+    const cardInfoesArr: string[] = [
+        storeImg1.src, storeImg2.src, storeImg3.src, storeImg4.src, storeImg5.src, storeImg6.src, storeImg7.src, storeImg8.src
     ]
     return (
         <section className='py-15 '>
+            
             <div className="title py-4">
-                <h2 className='text-2xl text-center font-bold text-serif'>Loved by thosands wordWide</h2>
+                <h2 className='text-2xl text-center font-bold font-sans capitalize'>
+                    see by your eyes
+                </h2>
             </div>
-            <div className="contol flex  gap-5 items-center">
-                <div className="triggers xl:flex gap-5 hidden ">
-                    <span ref={spanPrevRef} className='w-10 h-10 bg-green-500 rounded-full text-white flex items-center justify-center'><ArrowLeft /></span>
-                </div>
-                <div className="main w-[90%] mx-auto md:w-full  xl:w-[98%] xl:mx-0 overflow-hidden">
-                    <div ref={containerRef} className=" grid grid-cols-1 md:grid-cols-2  xl:flex  xl:flex-row gap-5 flex-wrap cont  xl:w-[700%] overflow-hidden ">
-                        {cardInfoesArr.map((info) => <TestmonailCard key={info.id} cardInfo={info} />)}
-                    </div>
-                </div>
 
-                <div className="triggers xl:flex gap-5 hidden ">
-                    <span ref={spanNextRef} className='w-10 h-10 bg-green-500 rounded-full text-white flex items-center justify-center'><ArrowRight /></span>
-                </div>
-            </div>
+           <SwipperGallery imagePathsArr={cardInfoesArr}/>
 
         </section>
     )
 }
 
 
-interface CardInfoType {
-    id: number,
-    title: string,
-    texts: string,
-    imgSrc: string,
-    date: string
-}
 
-function TestmonailCard({ cardInfo }: { cardInfo: CardInfoType }) {
-    return (
-        <div className='bg-green-200 rounded-xl py-4   xl:flex-shrink-0 card ' >
-            <div className="head border-b-1 border-slate-500 flex flex-col gap-5 cont my-3">
-                <span className='border-1 border-slate-500 h-10 w-10 rounded-full flex items-center justify-center text-gray-700'><Quote className='fill-gray-700' /></span>
-                <p className='text-slate-800 w-3/4 pb-3'>{cardInfo.texts}</p>
-            </div>
-            <div className="foot flex gap-5 mx-5">
-                <div className="img w-10 h-10 rounded-full">
-                    <Image src={cardInfo.imgSrc} alt={cardInfo.title} width={200} height={200} className='w-full object-contain  rounded-full' />
-                </div>
-                <div className="title">
-                    <h3>{cardInfo.title}</h3>
-                    <p>{cardInfo.date}</p>
-                </div>
-            </div>
-        </div>
-    )
-}
+

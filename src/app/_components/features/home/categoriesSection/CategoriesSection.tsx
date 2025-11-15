@@ -11,7 +11,7 @@ export default function CategoriesSection({ categories }: { categories: Category
   return (
     <section className="cont pt-50 pb-15 lg:py-15  ">
       <div className="title my-4 flex justify-between">
-        <h2 className={`text-serif font-bold text-4xl  `} >Shop Your Way</h2>
+        <h2 className={`text-serif font-bold text-4xl  `} >Shop By Category</h2>
         <Link href="/categories">
           <Button className="bg-green-400 hover:bg-green-500 group rounded-[30px] py-5 flex justify-between relative">
             <span className="text-black font-bold text-lg me-10 group-hover:text-white transition-all">View all </span>
