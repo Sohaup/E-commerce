@@ -1,5 +1,5 @@
 'use client'
-import landingImg from "@/../public/images/home/green_juice.png"
+import landingImg from "@/../public/images/home/cart.png"
 import lemonImg from "@/../public/images/home/lemons.png"
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ShoppingBag } from "lucide-react";
@@ -12,8 +12,10 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import React, { useRef } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { CategoryType } from "@/types/categoryType";
+import CategoryAvatar from "../../categories/categoyAvatar/CategoryAvatar";
 
-export function LandingSection() {
+export function LandingSection({categories}:{categories:CategoryType[]}) {
     const imgsInfo: imgInfoType[] = [
         {
             description: "fresh peach ",
@@ -192,13 +194,13 @@ export function LandingSection() {
                 </div>
 
                 <div className="landing-img flex flex-col  z-20 my-auto " ref={landingImgRef}>
-                    <Image src={landingImg} alt="green juice img" className="w-1/2 z-0  sm:w-1/3  lg:w-3/4 block object-cover mx-auto  img-shake drop-shadow-2xl" />
+                    <Image src={landingImg} alt="green juice img" className=" z-0  w-full md:w-1/2 lg:w-full block object-cover mx-auto  img-shake drop-shadow-2xl" />
                 </div>
 
 
             </div>
-            <div ref={freshProductsRef} className="fresh-products   bg-green-400 translate-y-40  lg:-translate-y-0 py-10 lg:px-5 z-30   ">
-                <Mapper imgs={imgsInfo} className="flex flex-col lg:flex-row gap-8 lg:justify-center " />
+            <div ref={freshProductsRef} className="fresh-products   bg-green-400   lg:-translate-y-0 py-10 lg:px-5 z-30 grid grid-cols-2 md:grid-cols-5 xl:grid-cols-10  gap-15 ">
+               {categories.map((category)=> <CategoryAvatar key={category._id} category={category}/>)}
             </div>
         </section>
     )

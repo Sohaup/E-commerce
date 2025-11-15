@@ -6,6 +6,7 @@ import Product from '../../products/Product/Product'
 import gsap from 'gsap'
 import { useGSAP } from "@gsap/react"
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Image from 'next/image'
 
 export default function ProductSection({ products, categories }: { products: productType[], categories: CategoryType[] }) {
     const containerRef = useRef<HTMLDivElement>(null)
@@ -67,9 +68,10 @@ function CategoryProducts({ category, products }: { category: CategoryType, prod
         <div className={` ${filteredProducts.length ? "w-fit " : "hidden"} section flex flex-col 2xl:flex-row gap-3 items-center `}>
             <div className="title">
                 <h3 className='font-bold text-xl text-green-400 font-sans'>{filteredProducts.length ? category.name : ""}</h3>
-
+                
             </div>
-            <div className={`products flex flex-wrap  gap-3 justify-center ${filteredProducts.length ? "2xl:w-[600%] 2xl:mt-25  " : "hidden"}`}>
+            <div className={`products flex flex-wrap   gap-3 justify-center ${filteredProducts.length ? "2xl:w-[600%] 2xl:mt-25  " : "hidden"}`}>
+               
                 {filteredProducts.length ?
                     filteredProducts.map((product) => <Product key={product._id} product={product} className='w-[85%]'/>)
                     : ""
