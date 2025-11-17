@@ -1,11 +1,13 @@
-
-import { getCartProducts, deleteCartProduct, updateProductCartAmount } from '@/store/Slices/cartSlice';
-import { productCartType } from '@/types/cartTupes'
+import { productCartType } from '@/types/cartTypes'
 import Image from 'next/image'
-import React, { useEffect, useReducer } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useSession } from 'next-auth/react';
 import { toast } from 'sonner';
+import { productType } from '@/types/productType';
+import { Minus, Plus } from 'lucide-react';
+import { Button } from 'flowbite-react';
+import { calcAmount, deleteFromTheCart  , calcTotal} from '@/store/Slices/cartSlice';
 
 enum CountActionKind {
   INCREASE = 'INCREASE',
@@ -32,43 +34,52 @@ function counterReducer(state: CountState, action: CountAction): CountState {
   }
 }
 
-export default function CartProduct({ product }: { product: productCartType }) {
+export default function CartProduct({ product }: { product: productType }) {
   const dispatch = useDispatch<any>();
   const session = useSession();
-  const [state, dispatchReducer] = useReducer(counterReducer, {count:product.count})
+  const [count , setCount] = useState(1);
   useEffect(() => {
     console.log(session.data?.token);
 
-  })
+  });
 
   function deleteProduct() {
     try {
-      dispatch(deleteCartProduct({ productId: product._id, token: session.data?.token }));
-      toast.success("deleted successfuly");
-    } catch (err) {
+    dispatch(deleteFromTheCart(product));
+    dispatch(calcAmount());
+    dispatch(calcTotal());
+    toast.success("deleted from the cart successfuly");
+    } catch(err) {
       if (err instanceof Error) {
-        toast.error(err.message)
+        toast.error(err.message);
       }
     }
   }
 
+  
   return (
-    <div>
-      <div className="card-img">
-        <Image src={product.product.imageCover} alt={product.product.title} width={200} height={200} />
-      </div>
-      <div className="details space-y-5">
-        <h3 className='text-center'><span>price :</span>{product.price}</h3>
-        <div className="btn-group flex gap-5">
-          <button onClick={() => dispatchReducer({type:CountActionKind.INCREASE , payload:1})} className='bg-green-400 hover:bg-green-500 transition-colors rounded-lg w-1/2 '>+</button>
-          <p>{state.count} </p>
-          <button  onClick={() => dispatchReducer({type:CountActionKind.DECREASE , payload:1})} className='bg-red-400 hover:bg-red-500 transition-colors rounded-lg w-1/2 '>-</button>
+    <div className='flex justify-between flex-col '>
+      <div className="card-texts pt-10 flex-col gap-3 w-full ">
+        <h2 className='text-3xl font-sans font-bold'>{product.description}</h2>
+        <p className='text-lg text-slate-400 flex flex-col '>
+          {product.title}
+          <span className='text-black text-md '>{product.price} Egp</span>
+        </p>
+        <div className="counter flex justify-center my-2 ">
+          <p className='text-black font-semibold text-lg flex gap-3'>
+            <span className='text-2xl'><Minus/></span>
+            <span className='text-green-400'>{count}</span>
+            <span className='text-2xl'><Plus/></span>
+          </p>
         </div>
       </div>
-      <div className="card-footer">
-        <button className='bg-red-600 hover:bg-red-700 w-full rounded-lg my-3' onClick={deleteProduct}>
-          remove
-        </button>
+      <div className="card-img w-full xl:w-3/4 ">
+        <Image src={product.imageCover} alt={product.title} width={300} height={300} className='w-full object-cover'/>
+      </div>
+      <div className="btn flex justify-center xl:w-3/4 my-4">
+        <Button className='bg-red-500 hover:bg-red-700 transition-colors duration-500' onClick={deleteProduct}>
+          Delete
+        </Button>
       </div>
     </div>
   )

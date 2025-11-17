@@ -3,8 +3,9 @@ import { productType, SubType } from "./productType";
 export interface productsStateType {
     loading:boolean ,
     error:boolean ,
-    cartProducts:productCartType[] | [] ,
-    totalPrice:number
+    cartProducts:productType[] | [] | string ,
+    totalPrice:number ,
+    countOfProducts:number   
 }
 
 export interface productCartType {

@@ -15,7 +15,6 @@ import Image from 'next/image';
 import { Plus, Star, View } from 'lucide-react';
 import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux'
-import { postCartProducts } from "@/store/Slices/cartSlice";
 import { useSession } from 'next-auth/react'
 import returnToken from '@/utilities/token';
 import { Session } from 'next-auth';
@@ -26,6 +25,8 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Draggable } from 'gsap/Draggable';
 import { InertiaPlugin } from 'gsap/InertiaPlugin';
+import { AddToCart } from '@/store/Slices/cartSlice'; 
+import { toast } from 'sonner';
 
 
 const playFairDisplayFont = Playfair_Display({
@@ -37,7 +38,7 @@ const playFairDisplayFont = Playfair_Display({
 declare module "next-auth" {
     interface Session {
         token?: string;
-    }
+    }   
 }
 
 export default function Product({ product, className }: { product: productType, className: string }) {
@@ -52,7 +53,16 @@ export default function Product({ product, className }: { product: productType, 
             y: 0,
             duration: 1
         })
-    })
+    });
+
+    useEffect(()=> {
+        console.log(JSON.parse(localStorage.getItem("cart")!));
+    } , [])
+
+    function AddTheProductToTheCart() {
+        disPatch(AddToCart(product));
+        toast.success("Added To The Cart Successfuly");
+    }
    
     return (      
             <Card className={`hover:relative group product  md:w-auto overflow-hidden ${className}`} onMouseOver={handleMouthUp} onTouchStart={handleMouthUp} >
@@ -86,7 +96,7 @@ export default function Product({ product, className }: { product: productType, 
                         </div>
                     </div>
                     <div className="btn flex gap-3  translate-y-[300px]" ref={buttonRef}>
-                        <Button  onClick={() => disPatch(postCartProducts({ productId: product._id, token: data?.token }))}
+                        <Button  onClick={AddTheProductToTheCart}
                             className={`bg-green-500 text-lg font-bold   flex items-center  transition-all duration-500 ${!data?.user ? 'bg-slate-300 ' : "hover:bg-terq "}  `}
                             disabled={!data?.user}
                         >
