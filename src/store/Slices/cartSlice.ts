@@ -1,6 +1,6 @@
 import { productsStateType } from "@/types/cartTypes";
 import returnToken from "@/utilities/token";
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
 
@@ -33,7 +33,7 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 //         } 
 //     });
 //     console.log(await response.json());
-    
+
 
 //     return await response.json() ;
 
@@ -52,49 +52,70 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 //     return await response.json() ;
 // })
 
-const initialState:productsStateType = {
-        cartProducts:  JSON.parse(localStorage.getItem("cart")!) ?? []  ,
-        totalPrice:0 ,
-        loading:false ,
-        error:false ,
-        countOfProducts: 0        
- };
+const initialState: productsStateType = {
+    cartProducts: JSON.parse(localStorage.getItem("cart")!) ?? [],
+    totalPrice: 0,
+    loading: false,
+    error: false,
+    countOfProducts: 0
+};
 
 const cartSlice = createSlice({
-    name:"cart slice" ,
-    initialState ,
-    reducers:{
-        AddToCart:(prevState,action)=> {            
-            if (typeof prevState.cartProducts == "object") {
-                const newCartProducts = [...prevState.cartProducts , action.payload]
-                localStorage.setItem("cart" , JSON.stringify(newCartProducts));
+    name: "cart slice",
+    initialState,
+    reducers: {
+        AddToCart: (prevState, action) => {
+            if (typeof prevState.cartProducts == "object") {                
+                const newCartProducts = [...prevState.cartProducts, action.payload]
+                localStorage.setItem("cart", JSON.stringify(newCartProducts));
                 prevState.cartProducts = newCartProducts
             }
-        } ,
-        calcTotal:(prevState )=> {
+        },
+        calcTotal: (prevState) => {
             if (typeof prevState.cartProducts == "object") {
-               let total = 0;
-               prevState.cartProducts.forEach((product)=> total+=product.price );
-               prevState.totalPrice = total;
+                let total = 0;
+                prevState.cartProducts.forEach((product) =>   total += product.price * product.count );           
+                prevState.totalPrice = total;             
+               
             }
-        } ,
-        calcAmount:(prevState)=> {
-             if (typeof prevState.cartProducts == "object") {              
-               prevState.countOfProducts = prevState.cartProducts.length;
-            }   
-        } ,
-        deleteFromTheCart:(prevState , action)=>{
-            if (typeof prevState.cartProducts == "object") {              
-              const newCartProducts = prevState.cartProducts.filter((product)=> product._id != action.payload._id);
-              prevState.cartProducts = newCartProducts;
-              localStorage.setItem("cart" , JSON.stringify(newCartProducts));
-            }   
+        },
+        calcAmount: (prevState) => {
+            if (typeof prevState.cartProducts == "object") {               
+                let amountOfProducts = 0;
+                prevState.cartProducts.forEach((product)=> {
+                   amountOfProducts += product.count
+                });
+                prevState.countOfProducts = amountOfProducts;
+            }
+        },
+        deleteFromTheCart: (prevState, action) => {
+            if (typeof prevState.cartProducts == "object") {
+                const newCartProducts = prevState.cartProducts.filter((product) => product._id != action.payload._id);
+                prevState.cartProducts = newCartProducts;
+                localStorage.setItem("cart", JSON.stringify(newCartProducts));
+            }
+        },
+        increaseProductCount: (prevState, action) => {
+            if (typeof prevState.cartProducts == "object") {
+                const newCartProducts = prevState.cartProducts.map((product) => product._id == action.payload._id ? { ...product, count: product.count + 1 } : product);
+                prevState.cartProducts = newCartProducts;
+                localStorage.setItem("cart" , JSON.stringify(newCartProducts));                
+            }
+        },
+        decreaseProductCount: (prevState, action) => {
+            if (typeof prevState.cartProducts == "object") {
+                const newCartProducts = prevState.cartProducts.map((product) => product._id == action.payload._id ? { ...product, count: product.count - 1 } : product);
+                prevState.cartProducts = newCartProducts;   
+                localStorage.setItem("cart" , JSON.stringify(newCartProducts));            
+            };
+              
+            
         }
     } ,
-    extraReducers:async function (builder) {
-      
-    }
-})  
+extraReducers: async function (builder) {
 
-export const {AddToCart , calcTotal , calcAmount , deleteFromTheCart} = cartSlice.actions
-export default  cartSlice.reducer
+}
+})
+
+export const { AddToCart, calcTotal, calcAmount, deleteFromTheCart , increaseProductCount , decreaseProductCount } = cartSlice.actions
+export default cartSlice.reducer

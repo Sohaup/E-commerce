@@ -3,23 +3,28 @@ import { productType, SubType } from "./productType";
 export interface productsStateType {
     loading:boolean ,
     error:boolean ,
-    cartProducts:productType[] | [] | string ,
+    cartProducts:productCartType[] | [] | string ,
     totalPrice:number ,
     countOfProducts:number   
 }
 
 export interface productCartType {
-    _id:string ,
-    count:number ,
+    brand:SubType ,
+    category:SubType ,
+    createdAt:string ,
+    description:string ,
+    id:string ,
+    imageCover:string ,
+    images:string[] ,
     price:number ,
-   
-    product:{
-        _id:string ,
-        quantity:number ,
-        ratingAverage:number ,
-        title:string ,
-        brand:SubType ,
-        category:SubType ,
-        imageCover:string
-    }
+    quantity:number ,
+    ratingsAverage:number ,
+    ratingQuantity:number ,
+    slug:string ,
+    sold:number ,
+    subcategory:SubType ,
+    title:string ,
+    updatedAt:string ,
+    _id:string ,
+    count:number
 }
