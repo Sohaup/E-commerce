@@ -10,6 +10,9 @@ import { signOut, useSession } from 'next-auth/react';
 import { toast } from "sonner"
 import { Input } from "@/components/ui/input"
 import CategoriesMenu from '../categoriesMenu/CategoriesMenu';
+import { useDispatch, useSelector } from 'react-redux';
+import { StoreType } from '@/store/store';
+import { calcAmount } from '@/store/Slices/cartSlice';
 
 
 export function NavMenu() {
@@ -48,6 +51,11 @@ export function NavMenu() {
 function NavLinks({ inMobile }: { inMobile: boolean }) {
   const path = usePathname();
   const sessionData = useSession();
+  const storeState = useSelector((store:StoreType)=> store.cartReducer)   
+  const dispatch  = useDispatch<any>();
+  useEffect(()=> {
+    dispatch(calcAmount());
+  } , [])
   async function handleLogOut() {
     try {
       await signOut();
@@ -68,8 +76,16 @@ function NavLinks({ inMobile }: { inMobile: boolean }) {
         {
           sessionData.status == "authenticated" ?
             <>
-              <li><Link href={"/cart"} className={`${path == "/cart" ? "text-green-500 font-bold" : ""}`}>Cart</Link></li>
-              <li><Link href={"/orders"} className={`${path == "/orders" ? "text-green-500 font-bold" : ""}`}>Orders</Link></li>
+              <li>
+              <Link href={"/cart"} className={`${path == "/cart" ? "text-green-500 font-bold" : ""}`}>
+               <span className='relative  '>
+                <ShoppingCart/>   
+                <span className='absolute -top-2 -left-2 w-5 h-5 bg-green-400 rounded-full text-lg text-white flex justify-center items-center'>
+                  {storeState.countOfProducts}
+                </span>            
+               </span>
+              </Link>
+              </li>            
               <li><span onClick={handleLogOut} className='cursor-pointer'>LogOut</span></li>
             </> :
             <>

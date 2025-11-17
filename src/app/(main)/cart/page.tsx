@@ -30,7 +30,7 @@ export default function Page() {
         <div className="products cont  grid grid-cols-1 md:grid-cols-2 gap-10  ">
           {
             typeof store.cartProducts == "object" ?
-              store.cartProducts.map((product) => <CartProduct product={product} key={product.id} />)
+              store.cartProducts.map((product) => <CartProduct product={{...product}} key={product.id} />)
               : ""
           }
         </div>

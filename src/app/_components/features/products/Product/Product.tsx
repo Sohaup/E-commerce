@@ -25,8 +25,9 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Draggable } from 'gsap/Draggable';
 import { InertiaPlugin } from 'gsap/InertiaPlugin';
-import { AddToCart } from '@/store/Slices/cartSlice'; 
+import { AddToCart, calcAmount, calcTotal, increaseProductCount } from '@/store/Slices/cartSlice';
 import { toast } from 'sonner';
+import { StoreType } from '@/store/store';
 
 
 const playFairDisplayFont = Playfair_Display({
@@ -38,11 +39,12 @@ const playFairDisplayFont = Playfair_Display({
 declare module "next-auth" {
     interface Session {
         token?: string;
-    }   
+    }
 }
 
 export default function Product({ product, className }: { product: productType, className: string }) {
     const disPatch = useDispatch<any>();
+    const cartData = useSelector((store: StoreType) => store.cartReducer);
     const { data }: { data: Session | null } = useSession();
     const path = usePathname();
     const buttonRef = useRef<HTMLDivElement>(null);
@@ -55,62 +57,71 @@ export default function Product({ product, className }: { product: productType, 
         })
     });
 
-    useEffect(()=> {
+    useEffect(() => {
         console.log(JSON.parse(localStorage.getItem("cart")!));
-    } , [])
+    }, [])
 
     function AddTheProductToTheCart() {
-        disPatch(AddToCart(product));
+        if (typeof cartData.cartProducts == "object") {
+            const isProductAlreadyExists = cartData.cartProducts.some((cartProduct) => cartProduct._id == product._id);
+            if (isProductAlreadyExists) {
+                disPatch(increaseProductCount(product));
+            } else {
+                disPatch(AddToCart({ ...product, count: 1 }));
+            }
+        }      
+        disPatch(calcAmount());
+        disPatch(calcTotal());
         toast.success("Added To The Cart Successfuly");
     }
-   
-    return (      
-            <Card className={`hover:relative group product  md:w-auto overflow-hidden ${className}`} onMouseOver={handleMouthUp} onTouchStart={handleMouthUp} >
-                <div className="img w-full relative group ">
-                    <Image src={product.imageCover}
-                        width={300} height={300}
-                        alt='prouct image'
-                        className={`${path == "/" ? "object-cover" : "object-contain lg:object-cover"} w-full block  max-h-[400px]`} />
-                    <div className="wrapper bg-black/50 absolute left-0 right-0 bottom-0 h-0 overflow-hidden  group-hover:h-full  transition-all duration-500 flex flex-col gap-3 items-center justify-center">
-                        <div className="icon flex-col gap-3 items-center justify-center ">
-                            <View color='white' size={30} className='mx-auto' />
-                            <Link href={`/products/${product._id}`} className='text-white'>details</Link>
-                        </div>
-                        <div className="icon flex-col gap-3 items-center justify-center cursor-pointer">
-                            <Plus color='white' size={30} className='mx-auto' />
-                            <span className='text-white'>add to cart</span>
-                        </div>
 
+    return (
+        <Card className={`hover:relative group product  md:w-auto overflow-hidden ${className}`} onMouseOver={handleMouthUp} onTouchStart={handleMouthUp} >
+            <div className="img w-full relative group ">
+                <Image src={product.imageCover}
+                    width={300} height={300}
+                    alt='prouct image'
+                    className={`${path == "/" ? "object-cover" : "object-contain lg:object-cover"} w-full block  max-h-[400px]`} />
+                <div className="wrapper bg-black/50 absolute left-0 right-0 bottom-0 h-0 overflow-hidden  group-hover:h-full  transition-all duration-500 flex flex-col gap-3 items-center justify-center">
+                    <div className="icon flex-col gap-3 items-center justify-center ">
+                        <View color='white' size={30} className='mx-auto' />
+                        <Link href={`/products/${product._id}`} className='text-white'>details</Link>
+                    </div>
+                    <div className="icon flex-col gap-3 items-center justify-center cursor-pointer">
+                        <Plus color='white' size={30} className='mx-auto' />
+                        <span className='text-white'>add to cart</span>
+                    </div>
+
+                </div>
+            </div>
+            <CardHeader>
+                <CardTitle className={playFairDisplayFont.className}>{product.category.name}</CardTitle>
+                <CardDescription className='line-clamp-1 font-sans'>{product.title}</CardDescription>
+            </CardHeader>
+            <CardFooter className='flex flex-col gap-3'>
+                <div className="flex justify-between w-full">
+                    <p className='text-green-600'>{product.price} Egp</p>
+                    <div className="icon">
+                        <Star color='gold' className={product.ratingsAverage > 4 ? "fill-orange-300 " : ""} />
+                        <span>{product.ratingsAverage}</span>
                     </div>
                 </div>
-                <CardHeader>
-                    <CardTitle className={playFairDisplayFont.className}>{product.category.name}</CardTitle>
-                    <CardDescription className='line-clamp-1 font-sans'>{product.title}</CardDescription>
-                </CardHeader>
-                <CardFooter className='flex flex-col gap-3'>
-                    <div className="flex justify-between w-full">
-                        <p className='text-green-600'>{product.price} Egp</p>
-                        <div className="icon">
-                            <Star color='gold' className={product.ratingsAverage > 4 ? "fill-orange-300 " : ""} />
-                            <span>{product.ratingsAverage}</span>
-                        </div>
-                    </div>
-                    <div className="btn flex gap-3  translate-y-[300px]" ref={buttonRef}>
-                        <Button  onClick={AddTheProductToTheCart}
-                            className={`bg-green-500 text-lg font-bold   flex items-center  transition-all duration-500 ${!data?.user ? 'bg-slate-300 ' : "hover:bg-terq "}  `}
-                            disabled={!data?.user}
-                        >
-                            Add to cart
-                        </Button>
-                        
-                         <Button  
-                            className={"text-lg font-bold   flex items-center"}
-                            
-                        >
-                          <Link href={`/products/${product._id}`}>Show details</Link> 
-                        </Button>
-                    </div>
-                </CardFooter>
-            </Card>       
+                <div className="btn flex gap-3  translate-y-[300px]" ref={buttonRef}>
+                    <Button onClick={AddTheProductToTheCart}
+                        className={`bg-green-500 text-lg font-bold   flex items-center  transition-all duration-500 ${!data?.user ? 'bg-slate-300 ' : "hover:bg-terq "}  `}
+                        disabled={!data?.user}
+                    >
+                        Add to cart
+                    </Button>
+
+                    <Button
+                        className={"text-lg font-bold   flex items-center"}
+
+                    >
+                        <Link href={`/products/${product._id}`}>Show details</Link>
+                    </Button>
+                </div>
+            </CardFooter>
+        </Card>
     )
 }
