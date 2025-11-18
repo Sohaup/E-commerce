@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import CategoriesMenu from '../categoriesMenu/CategoriesMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { StoreType } from '@/store/store';
-import { calcAmount } from '@/store/Slices/cartSlice';
+import { calcAmount, getCartProducts } from '@/store/Slices/cartSlice';
 
 
 export function NavMenu() {
@@ -54,6 +54,7 @@ function NavLinks({ inMobile }: { inMobile: boolean }) {
   const storeState = useSelector((store:StoreType)=> store.cartReducer)   
   const dispatch  = useDispatch<any>();
   useEffect(()=> {
+    dispatch(getCartProducts());
     dispatch(calcAmount());
   } , [])
   async function handleLogOut() {

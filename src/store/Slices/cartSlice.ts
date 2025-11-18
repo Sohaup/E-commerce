@@ -53,7 +53,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // })
 
 const initialState: productsStateType = {
-    cartProducts: JSON.parse(localStorage.getItem("cart")!) ?? [],
+    cartProducts: [],
     totalPrice: 0,
     loading: false,
     error: false,
@@ -64,6 +64,11 @@ const cartSlice = createSlice({
     name: "cart slice",
     initialState,
     reducers: {
+        getCartProducts:(prevState)=>{
+             if (typeof prevState.cartProducts == "object") {                
+                prevState.cartProducts = JSON.parse(localStorage.getItem("cart")!);
+            }
+        } ,
         AddToCart: (prevState, action) => {
             if (typeof prevState.cartProducts == "object") {                
                 const newCartProducts = [...prevState.cartProducts, action.payload]
@@ -117,5 +122,5 @@ extraReducers: async function (builder) {
 }
 })
 
-export const { AddToCart, calcTotal, calcAmount, deleteFromTheCart , increaseProductCount , decreaseProductCount } = cartSlice.actions
+export const {getCartProducts, AddToCart, calcTotal, calcAmount, deleteFromTheCart , increaseProductCount , decreaseProductCount } = cartSlice.actions
 export default cartSlice.reducer

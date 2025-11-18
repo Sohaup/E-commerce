@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react';
 import returnToken from '@/utilities/token';
 import CartProduct from '@/app/_components/features/products/CartProduct/CartProduct';
 import { Session } from 'next-auth';
-import { calcAmount, calcTotal } from '@/store/Slices/cartSlice';
+import { calcAmount, calcTotal, getCartProducts } from '@/store/Slices/cartSlice';
 
 declare module "next-auth" {
   interface Session {
@@ -19,6 +19,7 @@ export default function Page() {
   const dispatch = useDispatch<any>();
   const { data }: { data: Session | null } = useSession();
   useEffect(()=> {
+    dispatch(getCartProducts());
     dispatch(calcTotal());
     dispatch(calcAmount());
   } , [])
