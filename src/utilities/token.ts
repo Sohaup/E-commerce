@@ -6,7 +6,7 @@ import { cookies } from 'next/headers';
 
 export default async function returnToken() {
     const cookiesData = cookies();
-    const encryptedToken = (await cookiesData).get('next-auth.session-token');
+    const encryptedToken = (await cookiesData).get('next-auth.session-token') ?? (await cookiesData).get('__Secure-next-auth.session-token');
     const decryptedToken = await decode({token:encryptedToken?.value , secret:process.env.AUTH_SECRET!})
     return decryptedToken; 
     
