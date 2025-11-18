@@ -7,6 +7,7 @@ import returnToken from '@/utilities/token';
 import CartProduct from '@/app/_components/features/products/CartProduct/CartProduct';
 import { Session } from 'next-auth';
 import { calcAmount, calcTotal, getCartProducts } from '@/store/Slices/cartSlice';
+import Link from 'next/link';
 
 declare module "next-auth" {
   interface Session {
@@ -61,9 +62,9 @@ function OrderSummary({amountOfProducts , totalPrice}:{amountOfProducts:number ,
           <span>totalPrice :</span>
           <span>{totalPrice}</span>
         </p>
-         <p className=' text-xl border-t-3 border-black py-2 text-center text-red-600 cursor-pointer hover:bg-red-500 hover:text-white transition-all duration-500'>
+         <Link href="/gateway" className=' block text-xl border-t-3 border-black py-2 text-center text-red-600 cursor-pointer hover:bg-red-500 hover:text-white transition-all duration-500'>
           CheckOut
-        </p>
+        </Link>
       </div>
     </div>
   )

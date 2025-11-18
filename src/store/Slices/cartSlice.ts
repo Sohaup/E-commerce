@@ -65,8 +65,14 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         getCartProducts:(prevState)=>{
-             if (typeof prevState.cartProducts == "object") {                
+            if (typeof prevState.cartProducts == "object") {                
                 prevState.cartProducts = JSON.parse(localStorage.getItem("cart")!);
+            }
+        } ,
+        emptyCart:(prevState)=>{
+            if (typeof prevState.cartProducts == "object") {                
+                prevState.cartProducts = [];
+                localStorage.setItem("cart" , JSON.stringify([]));
             }
         } ,
         AddToCart: (prevState, action) => {
@@ -122,5 +128,5 @@ extraReducers: async function (builder) {
 }
 })
 
-export const {getCartProducts, AddToCart, calcTotal, calcAmount, deleteFromTheCart , increaseProductCount , decreaseProductCount } = cartSlice.actions
+export const {getCartProducts , emptyCart , AddToCart, calcTotal, calcAmount, deleteFromTheCart , increaseProductCount , decreaseProductCount } = cartSlice.actions
 export default cartSlice.reducer
