@@ -54,6 +54,7 @@ function NavLinks({ inMobile }: { inMobile: boolean }) {
   const storeState = useSelector((store:StoreType)=> store.cartReducer)   
   const dispatch  = useDispatch<any>();
   useEffect(()=> {
+    localStorage.setItem("cart" , JSON.stringify([]));
     dispatch(getCartProducts());
     dispatch(calcAmount());
   } , [])

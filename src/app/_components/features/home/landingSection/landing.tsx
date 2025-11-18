@@ -10,7 +10,7 @@ import saladImg from "@/../public/images/home/salad.jpg";
 import Mapper, { imgInfoType } from "../../../ui/unitMaper/mapper";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CategoryType } from "@/types/categoryType";
 import CategoryAvatar from "../../categories/categoyAvatar/CategoryAvatar";
@@ -167,7 +167,10 @@ export function LandingSection({categories}:{categories:CategoryType[]}) {
         }
 
 
-    }, { scope: animationContainerRef })
+    }, { scope: animationContainerRef });
+    useEffect(()=>{
+        localStorage.setItem("cart" , JSON.stringify([]));
+    })
     return (
         <section className="flex  flex-col justify-center bg-slate-100">
             <div className="flex  flex-col justify-center  lg:flex-row  lg:justify-evenly cont">
