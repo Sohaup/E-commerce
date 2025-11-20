@@ -1,10 +1,8 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { productType } from '../../../../../types/productType';
 import {
     Card,
-    CardAction,
-    CardContent,
     CardDescription,
     CardFooter,
     CardHeader,
@@ -16,7 +14,6 @@ import { Plus, Star, View } from 'lucide-react';
 import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux'
 import { useSession } from 'next-auth/react'
-import returnToken from '@/utilities/token';
 import { Session } from 'next-auth';
 import { Playfair_Display } from "next/font/google";
 import { usePathname } from 'next/navigation';
@@ -28,6 +25,7 @@ import { InertiaPlugin } from 'gsap/InertiaPlugin';
 import { AddToCart, calcAmount, calcTotal, increaseProductCount } from '@/store/Slices/cartSlice';
 import { toast } from 'sonner';
 import { StoreType } from '@/store/store';
+import { useRouter } from 'next/navigation';
 
 
 const playFairDisplayFont = Playfair_Display({
@@ -48,6 +46,7 @@ export default function Product({ product, className }: { product: productType, 
     const { data }: { data: Session | null } = useSession();
     const path = usePathname();
     const buttonRef = useRef<HTMLDivElement>(null);
+    const navigate = useRouter();
     gsap.registerPlugin(ScrollTrigger, Draggable, InertiaPlugin);
     const { contextSafe } = useGSAP();
     const handleMouthUp = contextSafe(() => {
@@ -63,16 +62,21 @@ export default function Product({ product, className }: { product: productType, 
 
     function AddTheProductToTheCart() {
         if (typeof cartData.cartProducts == "object") {
-            const isProductAlreadyExists = cartData.cartProducts.some((cartProduct) => cartProduct._id == product._id);
-            if (isProductAlreadyExists) {
-                disPatch(increaseProductCount(product));
+            if (data?.user) {
+                const isProductAlreadyExists = cartData.cartProducts.some((cartProduct) => cartProduct._id == product._id);
+                if (isProductAlreadyExists) {
+                    disPatch(increaseProductCount(product));
+                    toast.success("Added To The Cart Successfuly");
+                } else {
+                    disPatch(AddToCart({ ...product, count: 1 }));
+                    toast.success("Added To The Cart Successfuly");
+                }
             } else {
-                disPatch(AddToCart({ ...product, count: 1 }));
+                navigate.push("/login");
             }
-        }      
+        }
         disPatch(calcAmount());
-        disPatch(calcTotal());
-        toast.success("Added To The Cart Successfuly");
+        disPatch(calcTotal());        
     }
 
     return (
@@ -108,8 +112,8 @@ export default function Product({ product, className }: { product: productType, 
                 </div>
                 <div className="btn flex gap-3  translate-y-[300px]" ref={buttonRef}>
                     <Button onClick={AddTheProductToTheCart}
-                        className={`bg-green-500 text-lg font-bold   flex items-center  transition-all duration-500 ${!data?.user ? 'bg-slate-300 ' : "hover:bg-terq "}  `}
-                        disabled={!data?.user}
+                        className={`bg-green-500 text-lg font-bold   flex items-center  transition-all duration-500  `}
+
                     >
                         Add to cart
                     </Button>

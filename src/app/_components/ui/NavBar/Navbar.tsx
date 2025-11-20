@@ -18,18 +18,9 @@ import { calcAmount, getCartProducts } from '@/store/Slices/cartSlice';
 export function NavMenu() {
   const path = usePathname();
   const navRef = useRef<HTMLDivElement>(null);
+  const [isOpen , setIsOpen] = useState(false);
   
-  useEffect(()=> {
-    window.addEventListener("scroll" , ()=>{
-      navRef.current?.classList.remove("bg-white")
-    })
-
-     window.addEventListener("scrollend" , ()=>{
-      navRef.current?.classList.add( "bg-white")
-    })
-
-  } , [])
-  return (
+ return (
     <nav className={`fixed top-0 w-full font-sans  z-40 bg-white py-5  transition-colors  `} ref={navRef} >
       <div className="cont flex justify-between " >
         <div className="brand font-sans flex gap-1 items-center self-center">
@@ -39,20 +30,21 @@ export function NavMenu() {
             <span>Cart</span>
           </span>
         </div>
-        <NavLinks inMobile={false} />
+        <NavLinks inMobile={false}  isOpen={isOpen} setIsOpen={setIsOpen}/>
         <SearchForm inMobile={false} />
-        <MobileNavigationMenu />
+        <MobileNavigationMenu isOpen={isOpen} setIsOpen={setIsOpen}/>
       </div>
    
     </nav>
   );
 }
 
-function NavLinks({ inMobile }: { inMobile: boolean }) {
+function NavLinks({ inMobile  , isOpen , setIsOpen}: { inMobile: boolean , isOpen:boolean , setIsOpen:React.Dispatch<React.SetStateAction<boolean>> }) {
   const path = usePathname();
   const sessionData = useSession();
   const storeState = useSelector((store:StoreType)=> store.cartReducer)   
   const dispatch  = useDispatch<any>();
+  const navigate = useRouter();
   useEffect(()=> {
     localStorage.setItem("cart" , JSON.stringify([]));
     dispatch(getCartProducts());
@@ -69,16 +61,20 @@ function NavLinks({ inMobile }: { inMobile: boolean }) {
 
   }
 
+  function handleNavigate(path:string) {
+    setIsOpen(false);
+    navigate.push(path);
+  }
   return (
     <div className={`links text-lg self-center  ${inMobile ? "block" : "hidden lg:block"}`}>
       <ul className={`flex  gap-3 ${inMobile ? " flex-col my-5" : "flex-row "}`}>
-        <li><Link href={"/"} className={`${path == "/" ? "text-green-500 font-bold" : ""}`}>Home</Link></li>
-        <li><Link href={"/products"} className={`${path == "/products" || path.match(/\/products\/*/) ? "text-green-500 font-bold" : ""}`}>Products</Link></li>
-        <li><Link href={"/categories"} className={`${path == "/categories" ? "text-green-500 font-bold" : ""}`}>Categories</Link></li>
+        <li onClick={()=>handleNavigate("/")}><Link  href={"/"} className={`${path == "/" ? "text-green-500 font-bold" : ""}`}>Home</Link></li>
+        <li onClick={()=>handleNavigate("/products")} ><Link  href={"/products"} className={`${path == "/products" || path.match(/\/products\/*/) ? "text-green-500 font-bold" : ""}`}>Products</Link></li>
+        <li onClick={()=>handleNavigate("/categories")}><Link href={"/categories"} className={`${path == "/categories" ? "text-green-500 font-bold" : ""}`}>Categories</Link></li>
         {
           sessionData.status == "authenticated" ?
             <>
-              <li>
+              <li onClick={()=>handleNavigate("/cart")}>
               <Link href={"/cart"} className={`${path == "/cart" ? "text-green-500 font-bold" : ""}`}>
                <span className='relative  '>
                 <ShoppingCart/>   
@@ -88,11 +84,11 @@ function NavLinks({ inMobile }: { inMobile: boolean }) {
                </span>
               </Link>
               </li>            
-              <li><span onClick={handleLogOut} className='cursor-pointer'>LogOut</span></li>
+              <li ><span onClick={handleLogOut} className='cursor-pointer'>LogOut</span></li>
             </> :
             <>
-              <li><Link href={"/login"}>LogIn</Link></li>
-              <li><Link href={"/register"}>Register</Link></li>
+              <li onClick={()=>handleNavigate("/login")}><Link href={"/login"}>LogIn</Link></li>
+              <li onClick={()=>handleNavigate("/register")}><Link href={"/register"}>Register</Link></li>
             </>
         }
       </ul>
@@ -112,8 +108,8 @@ function SearchForm({ inMobile }: { inMobile: boolean }) {
   )
 }
 
-function MobileNavigationMenu() {
-  const [isOpen , setIsOpen] = useState(false);
+function MobileNavigationMenu({isOpen , setIsOpen}:{isOpen:boolean , setIsOpen:React.Dispatch<React.SetStateAction<boolean>>}) {
+  
   return (
     <div className='block lg:hidden self-center '>
      <div className="drawer-toggle">
@@ -122,7 +118,7 @@ function MobileNavigationMenu() {
        }
      </div>
      <div className={`drawer-content flex flex-col bg-white overflow-hidden fixed inset-0 top-[100px] transition-[height] duration-700 z-40  ${isOpen ? "  h-full  border-t-2 border-green-400" : "  h-0  "}`}>
-       <NavLinks inMobile={true}/>
+       <NavLinks inMobile={true} isOpen={isOpen} setIsOpen={setIsOpen}/>
        <SearchForm inMobile={true}/>
      </div>
     </div>

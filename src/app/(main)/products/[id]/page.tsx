@@ -5,6 +5,7 @@ import { Button } from 'flowbite-react';
 import { Star } from 'lucide-react';
 import React from 'react'
 import { getRelatedProductsUsingCategory } from '@/services/productApi';
+import CartButton from '@/app/_components/ui/AddToCartButton/CartButton';
 
 export default async function page({params}:{params:Promise<{id:string}>}) {   
    const {id} = await params;
@@ -22,7 +23,7 @@ export default async function page({params}:{params:Promise<{id:string}>}) {
     <main >
         <section className='flex gap-10 lg:gap-6 cont py-15 items-center flex-col lg:flex-row ' >     
         <div className="slider w-1/2">
-            <Slider imagesPath={productDetails.images} className='w-full lg:w-1/2'/> 
+            <Slider isHidden={false} imagesPath={productDetails.images} className='w-full lg:w-1/2'/> 
         </div>
         <div className="details flex flex-col gap-5 mx-5 lg:mx-0">
             <div className="title font-bold text-3xl">
@@ -38,9 +39,7 @@ export default async function page({params}:{params:Promise<{id:string}>}) {
                 </span>
             </div>
             <div className="btn">
-                <Button className='mx-auto bg-terq/80 text-lg font-bold hover:bg-terq flex items-center  transition-all duration-700'>
-                    Add to cart
-                </Button>
+               <CartButton product={productDetails}/>
             </div>
         </div>
         </section>   
